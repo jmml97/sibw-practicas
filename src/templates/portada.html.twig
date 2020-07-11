@@ -1,0 +1,97 @@
+<html lang="es">
+
+	{{ include('cabecera.html.twig') }}
+
+	<body class="container grid-lg">
+		{{ include('encabezamiento.html.twig') }}
+
+		{% if session.error|default %}
+			<div class="toast toast-error">
+				{{ session.error }}
+			</div>
+		{% endif %}
+		{% if session.message|default %}
+			<div class="toast">
+				{{ session.message }}
+			</div>
+		{% endif %}
+
+		{% if not session.loggedin %}
+			<div class="card hero-main">
+				<div class="card-image">
+					<img src="assets/img/illustration.png" class="img-responsive">
+				</div>
+				<div class="card-body text-large">
+					<h1>Bienvenido a eventos.com</h1>
+					<p>Descubre dónde está la diversión. Con eventos.com podrás encontrar eventos locales para todos los gustos, desde conciertos hasta exposiciones pasando por recitales de poesía. ¿A qué esperas?</p>
+					<p>
+						<a href="/iniciar-sesion.php" class="btn">Inicia sesión</a>
+						<a href="/registro.php" class="btn">Regístrate</a>
+					</p>
+				</div>
+			</div>
+		{% endif %}
+
+
+		<div class="columns">
+			<aside class="column col-3 col-sm-12">
+				<h4>Eventos recomendados</h4>
+				{% for e in eventos|slice(0,3) %}
+					<div class="tile tile-centered">
+						<div class="tile-icon">
+							<div class="example-tile-icon">
+								<img src="{{ imagenes[e.id] }} " alt="Evento" class="img-fit-cover">
+							</div>
+
+						</div>
+						<div class="tile-content">
+							<div class="tile-title">
+								<a href="/evento.php?id={{ e.id }}">{{ e.titulo }}</a>
+							</div>
+							<small class="tile-subtitle text-gray">{{ e.fecha }}</small>
+						</div>
+					</div>
+				{% endfor %}
+			</aside>
+			<div class="column col-9 col-sm-12">
+				<h1>Listado de eventos</h1>
+				{% if session.is_manager or session.is_superuser %}
+					<form class="form-horizontal">
+						<div class="form-group">
+							<div class="col-10 col-sm-12">
+								<label class="form-label">Crea un evento ahora</label>
+							</div>
+							<div class="col-2 col-sm-12">
+								<a class="btn btn-sm btn-primary form-inline float-right" href="/añadir.php"><i class="icon icon-plus"></i> Añadir</a>
+							</div>
+						</div>
+					</form>
+				{% endif %}
+				<br>
+				<div class="columns eventos">
+					{% for e in eventos %}
+						<div class="column col-4 event-row col-sm-12">
+							<div class="card">
+								<div class="card-image">
+									<a href="/evento.php?id={{ e.id }}"><img src="{{ imagenes[e.id] }} " alt="Evento" class="img-responsive"></a>
+								</div>
+								<div class="card-header">
+									<div class="card-title h5">
+										<a href="/evento.php?id={{ e.id }}">{{ e.titulo }}</a>
+									</div>
+									<div class="card-subtitle text-gray">{{ e.fecha }}</div>
+								</div>
+								<div class="card-body">
+									<p>{{ e.descripcion > 50 ? e.descripcion|slice(0, 51)|split(' ')|slice(0, -1)|join(' ') ~ '…' : e.descripcion }}</p>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+		{{ include('pie.html.twig') }}
+	</body>
+</html>
+

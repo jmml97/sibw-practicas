@@ -1,0 +1,42 @@
+<html lang="es">
+
+	{{ include('cabecera.html.twig') }}
+
+	<body class="container grid-lg">
+		{{ include('encabezamiento.html.twig') }}
+
+		<h1>Inicio de sesión</h1>
+		<p>Introduce aquí tus datos de inicio de sesión. ¿No tienes cuenta? <a href="/registro.php">Regístrate aquí</a>.</p>
+		<div class="columns">
+			<div class="column col-9 col-sm-12">
+				{% if session.error|default %}
+					<div class="toast toast-error">
+						{{ session.error }}
+					</div>
+				{% endif %}
+				{% if session.message|default %}
+					<div class="toast toast">
+						{{ session.message }}
+					</div>
+				{% endif %}
+				{% if not session.loggedin %}
+					<form class="form" action="iniciar-sesion-form.php" method="POST">
+						<div class="form-group">
+							<input class="form-input" type="email" placeholder="Correo" name="correo" required>
+						</div>
+						<div class="form-group">
+							<input class="form-input" type="password" placeholder="Contraseña" name="contraseña" required>
+						</div>
+						<button class="btn" type="submit">Inicia sesión</button>
+					</form>
+				{% else %}
+					Ya has iniciado sesión.
+				{% endif %}
+
+			</div>
+		</div>
+
+		{{ include('pie.html.twig') }}
+	</body>
+</html>
+

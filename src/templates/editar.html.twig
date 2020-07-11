@@ -1,0 +1,57 @@
+<html lang="es">
+
+	{{ include('cabecera.html.twig') }}
+
+	<body class="container grid-lg">
+		{{ include('encabezamiento.html.twig') }}
+
+		<h1>Añadir un evento</h1>
+		{% if session.error|default %}
+			<div class="toast toast-error">
+				{{ session.error }}
+			</div>
+		{% endif %}
+    {% if session.message|default %}
+			<div class="toast">
+				{{ session.message }}
+			</div>
+		{% endif %}
+		<div class="columns">
+			<div class="column col-6 col-sm-12">
+				<form action="editar-form.php" class="form" method="POST" enctype="multipart/form-data" name="registro" onsubmit="validar(event);">
+					<input type="hidden" name="id" value="{{ evento.id }}"/>
+					<div class="form-group">
+						<label class="form-label" for="nombre">Nombre del evento</label>
+						<input class="form-input" type="text" name="nombre" id="nombre" value="{{ evento.titulo }}" required/>
+					</div>
+
+					<div class="form-group">
+						<label class="form-label" for="fecha">Fecha</label>
+						<input class="form-input" type="date" name="fecha" id="fecha" value="{{ evento.fecha }}" required/>
+					</div>
+
+					<div class="form-group">
+						<label class="form-label" for="organizador">Organizador</label>
+						<input class="form-input" type="text" name="organizador" id="organizador" value="{{ evento.organizador }}" required/>
+					</div>
+
+          <div class="form-group">
+						<label class="form-label" for="descripción">Descripción</label>
+						<textarea class="form-input" rows="10" name="descripción" id="descripción" required>{{ evento.descripcion }}</textarea>
+					</div>
+
+          <div class="form-group">
+						<label class="form-label" for="etiquetas">Etiquetas (separadas por comas)</label>
+						<input class="form-input" type="text" name="etiquetas" id="etiquetas" value="{{ etiquetas }}"/>
+					</div>
+
+					<input class="btn" type="submit">
+				</form>
+			</div>
+			<div class="column col-6 col-sm-12"></div>
+		</div>
+
+		{{ include('pie.html.twig') }}
+	</body>
+</html>
+

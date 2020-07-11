@@ -1,0 +1,66 @@
+<html lang="es">
+
+	{{ include('cabecera.html.twig') }}
+
+	<body class="container grid-lg">
+		{{ include('encabezamiento.html.twig') }}
+
+    <h1>Administración de usuarios</h1>
+    <p>Coloca el cursor sobre alguno de los permisos para cambiarlo.</p>
+		<div class="columns">
+			<div class="column col-12">
+
+        {% if session.is_superuser %}
+
+				<table class="table users-table">
+					<tr>
+						<th>Nombre</th>
+						<th>Correo</th>
+						<th>Moderador</th>
+						<th>Gestor</th>
+						<th>Superusuario</th>
+					</tr>
+					{% for u in usuarios %}
+						<tr>
+							<td>{{ u.nombre }}</td>
+							<td>{{ u.correo }}</td>
+							<td>
+                {{ u.es_moderador ? 'Sí' : 'No' }}&ensp;
+                <form class="form-inline" name="moderador" method="POST" action="usuarios-form.php" enctype="multipart/form-data">
+                  <input type="hidden" name="formulario" value="moderador"/>
+                  <input type="hidden" name="id" value="{{ u.id }}"/>
+                  <input type="hidden" name="es_moderador" value="{{ u.es_moderador }}"/>
+                  <button class="btn" type="submit">Cambiar</button>
+                </form>
+              </td>
+							<td>
+              {{ u.es_gestor ? 'Sí' : 'No' }}&ensp;
+              <form class="form-inline" name="gestor" method="POST" action="usuarios-form.php" enctype="multipart/form-data">
+                  <input type="hidden" name="formulario" value="gestor"/>
+                  <input type="hidden" name="id" value="{{ u.id }}"/>
+                  <input type="hidden" name="es_gestor" value="{{ u.es_gestor }}"/>
+                  <button class="btn" type="submit">Cambiar</button>
+                </form>
+              </td>
+							<td>
+              {{ u.es_superusuario ? 'Sí' : 'No' }}&ensp;
+              <form class="form-inline" name="superusuario" method="POST" action="usuarios-form.php" enctype="multipart/form-data">
+                  <input type="hidden" name="formulario" value="superusuario"/>
+                  <input type="hidden" name="id" value="{{ u.id }}"/>
+                  <input type="hidden" name="es_superusuario" value="{{ u.es_superusuario }}"/>
+                  <button class="btn" type="submit">Cambiar</button>
+                </form>
+              </td>
+						</tr>
+					{% endfor %}
+				</table>
+        {% else %}
+          <p>No tienes permiso para ver esta página.</p>
+        {% endif %}
+
+
+			</div>
+		</body>
+	</body>
+</html></div>{{ include('pie.html.twig') }}</body></html>
+

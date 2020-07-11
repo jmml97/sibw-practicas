@@ -1,0 +1,146 @@
+<html lang="es">
+
+	{{ include('cabecera.html.twig') }}
+
+	{{ prohibidas | raw }}
+
+	<body class="container grid-lg">
+		{{ include('encabezamiento.html.twig') }}
+
+		{% if session.error|default %}
+			<div class="toast toast-error">
+				{{ session.error }}
+			</div>
+		{% endif %}
+		{% if session.message|default %}
+			<div class="toast">
+				{{ session.message }}
+			</div>
+		{% endif %}
+
+		<div class="columns">
+			<aside class="column col-3 col-sm-12">
+				<h4>Eventos recomendados</h4>
+				{% for e in eventos|slice(0,3) %}
+					<div class="tile tile-centered">
+						<div class="tile-icon">
+							<div class="example-tile-icon">
+								<img src="{{ imagenes_rec[e.id] }}" alt="Evento" class="img-fit-cover">
+							</div>
+
+						</div>
+						<div class="tile-content">
+							<div class="tile-title">
+								<a href="/evento.php?id={{ e.id }}">{{ e.titulo }}</a>
+							</div>
+							<small class="tile-subtitle text-gray">{{ e.fecha }}</small>
+						</div>
+					</div>
+				{% endfor %}
+			</aside>
+			<article
+				class="column col-9 col-sm-12">
+				<!--Descripción-->
+				<h1 class="text-bold">{{ evento.titulo }}</h1>
+				<div class="metadata">
+					<p>
+						<span class="text-bold">Organizador:</span>
+						{{ evento.organizador }}</p>
+					<p>
+						<span class="text-bold">Fecha del evento:</span>
+						{{ evento.fecha }}</p>
+				</div>
+				{% if session.is_manager or session.is_superuser %}
+					<a href="/editar.php?id={{ evento.id }}" class="btn">Editar evento</a>
+					<a href="/borrar.php?id={{ evento.id }}" class="btn">Borrar evento</a>
+					<a href="/publicar.php?id={{ evento.id }}" class="btn">{{ not evento.publicado ? 'Publicar' : 'Ocultar' }}</a>
+				{% endif %}
+				{# <img src="{{ imagenes|first.ruta }}" class="img-responsive"> #}
+				<br>
+				<p class="description">{{ evento.descripcion }}</p>
+				<div class="tags">
+					{% for e in etiquetas %}
+						<span class="chip">{{ e.nombre }}</span>
+					{% endfor %}
+				</div>
+
+				<h3>Galería</h3>
+				<div class="columns">
+					{% for i in imagenes %}
+						<div class="column col-4 event-row col-sm-12">
+							<a href="{{ i.ruta }}">
+								<img src="{{ i.ruta }}" class="img-responsive">
+							</a>
+						</div>
+					{% endfor %}
+				</div>
+
+				<h3>Compartir y comentar</h3>
+
+				<p>
+					<a href="https://twitter.com/share" class="share-btn twitter">Twitter</a>
+					<a href="https://www.facebook.com/sharer/sharer.php" class="share-btn facebook">Facebook</a>
+				</p>
+
+				<button class="btn" onclick="abrePanel()">Mostrar comentarios</button>
+
+			</article>
+
+			<div id="comentarios-panel-lateral" class="panel-lateral">
+				<a href="javascript:void(0)" class="boton-cierre" onclick="cierraPanel()">&times;</a>
+				<div class="panel">
+					<div class="panel-header">
+						<div class="panel-title h3 text-bold">Comentarios</div>
+					</div>
+					<div class="panel-body" id="comentarios">
+						{% for c in comentarios %}
+							<div class="tile">
+								<div class="tile-icon">
+									<figure class="avatar"><img src="/uploads/{{ c.foto }}" alt="Avatar"></figure>
+								</div>
+								<div class="tile-content">
+									<div class="tile-title text-bold">{{ c.nombre }}</div>
+									<p class="tile-title text-gray">{{ c.fecha }}</p>
+									{% if c.editado %}
+										<p class="tile-title text-gray">Comentario editado el
+											{{ c.fecha_edicion }}</p>
+									{% endif %}
+									<p class="tile-subtitle">{{ c.comentario }}</p>
+									{% if session.id == c.usuario or session.is_moderator or session.is_superuser %}
+										<p>
+											<a href="/editar-comentario.php?id={{ c.id }}">Editar comentario</a>
+											-
+											<a href="/borrar-comentario.php?id={{ c.id }}">Borrar comentario</a>
+										</p>
+
+									{% endif %}
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+					{% if session.loggedin %}
+						<form action="comentario-form.php" method="POST" class="panel-footer" id="anadir-comentario" onsubmit="return censurar_comentario();">
+							<p>Vas a comentar como
+								{{ session.name }}</p>
+							<div class="form-group">
+								<input type="hidden" name="id" value="{{ evento.id }}"/>
+								<label class="form-label" for="comentario-comentario">Comentario</label>
+								<textarea class="form-input" id="comentario-comentario" placeholder="Comentario" rows="3" name="comentario"></textarea>
+							</div>
+							<input class="btn btn-primary" type="submit" value="Enviar">
+						</form>
+					{% else %}
+						<p class="panel-message">Inicia sesión para comentar.</p>
+					{% endif %}
+
+				</div>
+			</div>
+
+		</div>
+
+		{{ include('pie.html.twig') }}
+
+		<script src="assets/js/comentarios.js"></script>
+	</body>
+</html>
+

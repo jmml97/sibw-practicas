@@ -1,0 +1,30 @@
+<header class="navbar mt-2">
+	<section class="navbar-section">
+		{# <a href="/" class="navbar-brand mr-2">
+			<i class="icon icon-2x icon-emoji"></i>
+		</a> #}
+		<a href="/" class="navbar-brand mr-2">eventos.com</a>
+		{% if session.is_superuser %}
+			<a href="/usuarios.php" class="btn btn-link">Administración de usuarios</a>
+		{% endif %}
+		<a href="/buscar.php" class="btn btn-link"><i class="icon icon-search"></i> Búsqueda</a>
+	</section>
+	<section class="navbar-section">
+		{% if session.loggedin %}
+			<form class="form-inline" action="salir.php" method="POST">
+				<div class="form-group">
+					<label class="form-label form-inline">Bienvenido,
+						<a href="/perfil.php">{{ session.name }}</a>
+					</label>
+					<button class="btn btn-sm input-group-btn form-inline" type="submit"><i class="icon icon-shutdown"></i> Salir</button>
+				</div>
+			</form>
+		{% else %}
+			<a href="/iniciar-sesion.php" class="btn btn-link">Inicia sesión</a>
+			<a href="/registro.php" class="btn btn-link">Regístrate</a>
+		{% endif %}
+	</section>
+
+</header>
+<br>
+

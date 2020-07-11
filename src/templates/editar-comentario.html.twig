@@ -1,0 +1,39 @@
+<html lang="es">
+
+	{{ include('cabecera.html.twig') }}
+
+	<body class="container grid-lg">
+		{{ include('encabezamiento.html.twig') }}
+
+		<h1>Editar comentario</h1>
+		{% if session.error|default %}
+			<div class="toast toast-error">
+				{{ session.error }}
+			</div>
+		{% endif %}
+    {% if session.message|default %}
+			<div class="toast">
+				{{ session.message }}
+			</div>
+		{% endif %}
+		<div class="columns">
+			<div class="column col-6 col-sm-12">
+				<form action="editar-comentario-form.php" class="form" method="POST" enctype="multipart/form-data" name="registro" onsubmit="validar(event);">
+					<input type="hidden" name="id_comentario" value="{{ comentario.id }}"/>
+					<input type="hidden" name="id_evento" value="{{ comentario.evento }}"/>
+
+          <div class="form-group">
+						<label class="form-label" for="comentario">Comentario</label>
+						<textarea class="form-input" rows="10" name="comentario" id="comentario">{{ comentario.comentario }}</textarea>
+					</div>
+
+					<input class="btn" type="submit">
+				</form>
+			</div>
+			<div class="column col-6 col-sm-12"></div>
+		</div>
+
+		{{ include('pie.html.twig') }}
+	</body>
+</html>
+

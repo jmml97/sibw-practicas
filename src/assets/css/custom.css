@@ -1,0 +1,145 @@
+/* CSS de eventos */
+
+.event-row {
+  margin-bottom: 2em;
+}
+
+.event-img {
+  margin-bottom: 1em;
+}
+
+.metadata p {
+  margin-bottom: 0.5em !important;
+}
+
+/* Modo imprimir */
+
+.print, .print a, .print .figure-caption {
+  color: black !important;
+  font-size: 16pt;
+}
+
+/* Botones de compartir */
+/* https://schier.co/blog/pure-html-share-buttons */
+
+.share-btn {
+  display: inline-block;
+  color: #ffffff;
+  border: none;
+  padding: 0.1em 0.6em;
+  outline: none;
+  text-align: center;
+  font-size: 0.9em;
+  margin-right: 0.2em;
+}
+
+.share-btn:focus,
+.share-btn:hover {
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.share-btn:active {
+  color: #e2e2e2;
+}
+
+.share-btn:hover {
+  color: #ffffff;
+}
+
+.share-btn:visited {
+  color: #ffffff;
+}
+
+.share-btn.twitter { border-radius: .1rem; background: #55acee; }
+.share-btn.facebook { border-radius: .1rem; background: #3B5998; }
+
+.users-table .btn {
+  opacity: 0;
+}
+
+.users-table td:hover .btn {
+  opacity: 1;
+  transition: opacity .3s;
+}
+
+/* Front page hero */
+
+.hero-main {
+  border: none;
+  margin-bottom: 2em;
+}
+
+.hero-main h1 {
+  font-weight: bold;
+}
+
+.hero-main .card-body {
+  background-color: #f8d9eb;
+  color: #2b292d;
+  border-bottom-left-radius: .3rem;
+  border-bottom-right-radius: .3rem;
+}
+
+.hero-main .card-image:first-child img {
+  background-color: #f8d9eb;
+  padding-top: 2em;
+  padding-right: 33%;
+  border-top-left-radius: .3rem;
+  border-top-right-radius: .3rem;
+}
+
+.eventos .card {
+  background-color: #f7f8f9;
+  border: none;
+  border-radius: .3rem;
+}
+
+.eventos .card-image:first-child img {
+  border-top-left-radius: .3rem;
+  border-top-right-radius: .3rem;
+}
+
+.img-companion {
+  border-radius: .3em;
+}
+
+/* Descripción de evento en página de evento */
+
+article .description {
+  margin-top: 2em;
+}
+
+article .tags {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+article .img-responsive {
+  border-radius: .3rem;
+  margin-top: 1em;
+}
+
+/* Mensaje de los comentarios */
+
+.panel-message {
+  padding-left: 2em;
+}
+
+/* Eventos recomendados */
+
+.tile-icon img {
+  max-width: 32px;
+}
+
+/* Pie de página */
+
+footer {
+  margin-top: 2em;
+}
+
+/* Encabezado */
+
+header button {
+  margin-left: 1em;
+}

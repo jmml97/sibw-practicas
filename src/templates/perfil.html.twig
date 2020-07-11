@@ -1,0 +1,70 @@
+<html lang="es">
+
+	{{ include('cabecera.html.twig') }}
+
+	<body class="container grid-lg">
+		{{ include('encabezamiento.html.twig') }}
+
+		<h1>Perfil</h1>
+		{% if session.error|default %}
+			<div class="toast toast-error">
+				{{ session.error }}
+			</div>
+		{% endif %}
+		<div class="columns">
+			<div class="column col-6 col-sm-12">
+				<h2>Datos personales</h2>
+				<form action="cambiar-datos-form.php" class="form" method="POST" enctype="multipart/form-data" name="registro" onsubmit="validar(event);">
+					<div class="form-group">
+						<label class="form-label" for="nombre">Nombre y apellidos</label>
+						<input class="form-input" type="text" name="nombre" id="nombre" value="{{ usuario.nombre }}" required/>
+					</div>
+
+					<div class="form-group">
+						<label class="form-label" for="correo">Correo electrónico</label>
+						<input class="form-input" type="email" name="correo" id="correo" value="{{ usuario.correo }}" required/>
+					</div>
+
+					<div class="form-group">
+						<label class="form-label" for="contraseña">Contraseña</label>
+						<input class="form-input" type="password" name="contraseña" id="contraseña" required/>
+					</div>
+					<input class="btn" type="submit">
+				</form>
+				<br>
+				<h2>Contraseña</h2>
+				<form action="cambiar-contraseña-form.php" class="form" method="POST" enctype="multipart/form-data" name="cambiar-contraseña" onsubmit="validar(event);">
+					<div class="form-group">
+						<label class="form-label" for="contraseña">Contraseña actual</label>
+						<input class="form-input" type="password" name="contraseña" id="contraseña" required/>
+					</div>
+
+					<div class="form-group">
+						<label class="form-label" for="contraseña-nueva">Nueva contraseña</label>
+						<input class="form-input" type="password" name="contraseña-nueva" id="contraseña-nueva" required/>
+					</div>
+
+					<div class="form-group">
+						<label class="form-label" for="contraseña-nueva-bis">Repite la nueva contraseña</label>
+						<input class="form-input" type="password" name="contraseña-nueva-bis" id="contraseña-nueva-bis" required/>
+					</div>
+					<input class="btn" type="submit">
+				</form>
+			</div>
+			<div class="column col-6 col-sm-12">
+				<h2>Foto de perfil</h2>
+				<img class="img-responsive" src="uploads/{{ usuario.foto }}" alt="Fotografía del perfil">
+				<form action="cambiar-foto-form.php" class="form" method="POST" enctype="multipart/form-data" name="cambiar-foto">
+					<div class="form-group">
+						<label class="form-label" for="foto">Cambiar foto de perfil</label>
+						<input type="file" name="foto" accept="image/png, image/jpeg, image/gif, image/jpg" required/>
+					</div>
+					<input class="btn" type="submit">
+				</form>
+			</div>
+		</div>
+
+		{{ include('pie.html.twig') }}
+	</body>
+</html>
+

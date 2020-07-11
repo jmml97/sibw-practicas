@@ -1,0 +1,99 @@
+<html lang="es">
+
+	{{ include('cabecera.html.twig') }}
+
+	<body class="container grid-lg">
+		{{ include('encabezamiento.html.twig') }}
+
+		<div class="columns">
+			<div class="column col-12">
+				<h1>Búsqueda</h1>
+				<form name="búsqueda-form" class="form-horizontal">
+					<div class="input-group">
+						<input class="form-input input-lg" type="text" name="búsqueda" placeholder="Introduce aquí tu búsqueda" required>
+					</div>
+				</form>
+				<br>
+				<div class="columns eventos">
+					
+				</div>
+			</div>
+		</div>
+
+		
+	</body>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('.input-group input[type="text"]').on("keyup input", function () {
+				
+				// Obtenemos la búsqueda
+				var busqueda = $(this).val();
+
+				// Si está vacío el campo borramos la lista
+				if (busqueda === "") {
+					$(".eventos").empty();
+					return;
+				}
+
+				$.ajax({
+					data: { busqueda },
+					url: 'buscar-form-ajax.php',
+					type: 'post',
+					success: function (respuesta) {
+						// Limpiamos antes de volver a llenarla
+						$(".eventos").empty();
+						resultadosAjax(respuesta);
+					}
+				});
+
+				
+			});
+		});
+
+		function resultadosAjax(respuesta) {
+
+			eventos = respuesta[0]
+			imagenes = respuesta[1]	
+
+			// Generamos la tarjeta para cada evento
+			for (i = 0; i < eventos.length; i++) {
+				console.log(eventos[i]);
+				console.log(imagenes[i]);
+				event_row =  $('<div/>', {class: 'column col-4 event-row col-sm-12' });
+				card = $('<div/>', {class: 'card' });
+				card_image = $('<div/>', {class: 'card-image' });
+				image_link = $("<a/>", {
+					href: "/evento.php?id=" + eventos[i].id,
+				});
+				image = $("<img/>", {
+					src: imagenes[eventos[i].id],
+					class: "img-responsive"
+				});
+				image_link.append(image);
+				card_image.append(image_link);
+				card.append(card_image);
+				card_header = $('<div/>', {class: 'card-header' });
+				card_title = $('<div/>', {class: 'card-title h5' });
+				card_title.append($('<a/>', {href: "/evento.php?id=" + eventos[i].id, text: eventos[i].titulo}));
+				card_subtitle = $('<div/>', {class: 'card-subtitle text-gray' }).append(eventos[i].fecha);
+				card_header.append(card_title);
+				card_header.append(card_subtitle);
+				card.append(card_header);
+
+				// Generamos una descripción corta
+				var d = eventos[i].descripcion; 
+				var length = 50; 
+				var resumen = d.length > length ? d.substring(0, length - 3) + "..." : d.substring(0, length);
+
+				card_body = $('<div/>', {class: 'card-body' }).append(resumen);
+				card.append(card_body);
+
+				event_row.append(card);
+				$(".eventos").append(event_row);
+			}
+
+		}
+	</script>
+</html>
+
